@@ -24,7 +24,7 @@ async def start(message: types.Message):
 async def help_command(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     button1 = types.KeyboardButton(text="$пригласить друга")
-    button2 = types.KeyboardButton(text="Другая кнопка")
+    button2 = types.KeyboardButton(text="$Регистрация логин открыть счет верификация")
     button3 = types.KeyboardButton(text="Другая кнопка")
     button4 = types.KeyboardButton(text="Другая кнопка")
     button5 = types.KeyboardButton(text="Другая кнопка")
@@ -43,7 +43,14 @@ async def send_youtube_link(message: types.Message):
     response = f"Вот ваша ссылка на YouTube:\n{youtube_url}\n\nОписание:\n{youtube_description}"
     await message.reply(response, disable_web_page_preview=True)
 
-
+@dp.message_handler(Text(equals="$Регистрация логин открыть счет верификация"))
+async def send_youtube_link(message: types.Message):
+    youtube_url = "https://youtu.be/yx1x4mIRgs0"  # Замените на вашу ссылку на YouTube
+    youtube_description = "В данном ролику мы рассмотрим шаг за шагом процесс регистрации и входа в систему, а также " \
+                          "расскажем, как открыть свой счет. Узнайте о важности верификации и какие документы могут " \
+                          "потребоваться для этого процесса."  # Замените на ваше описание
+    response = f"Вот ваша ссылка на YouTube:\n{youtube_url}\n\nОписание:\n{youtube_description}"
+    await message.reply(response, disable_web_page_preview=True)
 
 
 
