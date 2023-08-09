@@ -1,9 +1,64 @@
+from config import bot, dp
+from aiogram import types
+from aiogram import Dispatcher
 
 
+# Хранение результатов
+votes = {}
+
+@dp.message_handler(commands=['guess'])
+async def start_vote(message: types.Message):
+    question = "Какой Ark следующий?"
+    options = ["Ark 2", "Ark 3", "Ark 4"]
+
+    poll_message = await bot.send_poll(
+        chat_id=message.chat.id,
+        question=question,
+        options=options,
+        is_anonymous=False
+    )
+
+    votes[poll_message.poll.id] = {'message_id': poll_message.message_id, 'voters': {}, 'options': options}
+
+@dp.poll_answer_handler()
+async def handle_poll_answer(poll_answer: types.PollAnswer):
+    poll_id = poll_answer.poll_id
+    user_id = poll_answer.user.id
+    option_id = poll_answer.option_ids[0] if poll_answer.option_ids else None
+
+    if poll_id in votes:
+        votes[poll_id]['voters'][user_id] = option_id
+
+@dp.message_handler(commands=['results'])
+async def show_results(message: types.Message):
+    for poll in votes.values():
+        result_text = "Results:\n"
+        results_count = [0] * len(poll['options'])
+
+        for user_id, option_id in poll['voters'].items():
+            results_count[option_id] += 1
+            result_text += f"User {user_id} voted for {poll['options'][option_id]}\n"
+
+        result_text += "\nSummary:\n"
+        for i, count in enumerate(results_count):
+            result_text += f"{poll['options'][i]}: {count} votes\n"
+
+        await message.reply(result_text)
+
+
+
+
+
+
+def register_handlers_callback(dp: Dispatcher):
+    dp.message_handler(commands=['guess'])
+
+
+#
 #
 #
 # import pickle
-# from aiogram import Bot, Dispatcher, types, exceptions
+# from aiogram import exceptions
 # from aiogram.utils import executor
 # import asyncio
 # from decouple import config

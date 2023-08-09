@@ -2,6 +2,7 @@ from aiogram import types, Dispatcher
 from config import bot, dp, users_ids
 from aiogram import types
 from aiogram.dispatcher.filters import Text
+from aiogram.types import ChatType
 
 
 
@@ -20,7 +21,7 @@ async def start(message: types.Message):
 
 
 
-@dp.message_handler(commands=['help'])
+@dp.message_handler(commands=['help'], chat_type=ChatType.PRIVATE)
 async def help_command(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     button1 = types.KeyboardButton(text="$пригласить друга")
@@ -36,16 +37,16 @@ async def help_command(message: types.Message):
     keyboard.add(button1, button2, button3, button4, button5, button6, button7, button8)  # Добавьте сюда остальные кнопки
     await message.reply("Выберите действие:", reply_markup=keyboard)
 
-@dp.message_handler(Text(equals="$пригласить друга"))
+@dp.message_handler(Text(equals="$пригласить друга"), chat_type=ChatType.PRIVATE)
 async def send_youtube_link(message: types.Message):
     youtube_url = "https://youtu.be/v_acSI8ERCM"  # Замените на вашу ссылку на YouTube
     youtube_description = "Когда приглашаете друзей вы можете получить 40% прибыли от их дохода"  # Замените на ваше описание
     response = f"Вот ваша ссылка на YouTube:\n{youtube_url}\n\nОписание:\n{youtube_description}"
     await message.reply(response, disable_web_page_preview=True)
 
-@dp.message_handler(Text(equals="$Регистрация логин открыть счет верификация"))
+@dp.message_handler(Text(equals="$Регистрация логин открыть счет верификация"), chat_type=ChatType.PRIVATE)
 async def send_youtube_link(message: types.Message):
-    youtube_url = "https://youtu.be/yx1x4mIRgs0"  # Замените на вашу ссылку на YouTube
+    youtube_url = "https://youtu.be/kK7W6V5wnJA"  # Замените на вашу ссылку на YouTube
     youtube_description = "В данном ролику мы рассмотрим шаг за шагом процесс регистрации и входа в систему, а также " \
                           "расскажем, как открыть свой счет. Узнайте о важности верификации и какие документы могут " \
                           "потребоваться для этого процесса."  # Замените на ваше описание
