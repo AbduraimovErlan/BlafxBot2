@@ -26,7 +26,7 @@ async def help_command(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     button1 = types.KeyboardButton(text="$пригласить друга")
     button2 = types.KeyboardButton(text="$Регистрация логин открыть счет верификация")
-    button3 = types.KeyboardButton(text="Другая кнопка")
+    button3 = types.KeyboardButton(text="$Подключить Google Authenticator для защиты и MetaTrader4 для мониторинга")
     button4 = types.KeyboardButton(text="Другая кнопка")
     button5 = types.KeyboardButton(text="Другая кнопка")
     button6 = types.KeyboardButton(text="Другая кнопка")
@@ -53,7 +53,18 @@ async def send_youtube_link(message: types.Message):
     response = f"Вот ваша ссылка на YouTube:\n{youtube_url}\n\nОписание:\n{youtube_description}"
     await message.reply(response, disable_web_page_preview=True)
 
-
+@dp.message_handler(Text(equals="$Подключить Google Authenticator для защиты и MetaTrader4 для мониторинга"), chat_type=ChatType.PRIVATE)
+async def send_youtube_link(message: types.Message):
+    youtube_url = "https://youtu.be/f1UOLEUuglA"  # Замените на вашу ссылку на YouTube
+    youtube_description = "🔐 Google Authenticator: Этот мощный инструмент двухфакторной аутентификации позволяет" \
+                          " убедиться, что ваш аккаунт защищен даже в случае, если ваши учетные данные украдены." \
+                          " Мы покажем, как настроить Google Authenticator и использовать его для защиты ваших " \
+                          "аккаунтов.💼 MetaTrader4 (MT4): Эта популярная торговая платформа широко известна среди" \
+                          " трейдеров во всем мире. MT4 обладает мощными инструментами для мониторинга и анализа " \
+                          "торговых операций. Мы рассмотрим, как подключить MT4 к вашему брокерскому счету, настроить" \
+                          " индикаторы и следить за вашими сделками в реальном времени."  # Замените на ваше описание
+    response = f"Вот ваша ссылка на YouTube:\n{youtube_url}\n\nОписание:\n{youtube_description}"
+    await message.reply(response, disable_web_page_preview=True)
 
 # from pytube import YouTube
 #
