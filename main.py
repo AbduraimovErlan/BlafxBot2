@@ -1,10 +1,16 @@
 from aiogram.utils import executor
 from config import dp
-from handlers import client, callback
+from handlers import client, callback, openai
 import logging
+
+
+
+
+
 
 client.register_handlers_client(dp)
 callback.register_handlers_callback(dp)
+openai.register_handlers_openai(dp)
 
 
 

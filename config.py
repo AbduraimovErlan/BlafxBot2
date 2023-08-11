@@ -1,9 +1,11 @@
 from aiogram import Bot, Dispatcher
-from decouple import config
+from decouple import Config
+from decouple import Config, RepositoryEnv
 
+config = Config(RepositoryEnv('.env'))
+TOKEN = config('TOKEN')
+OPENAI_TOKEN = config('OPENAI_TOKEN')
 
-
-TOKEN = config("TOKEN")
 
 bot = Bot(TOKEN)
 dp = Dispatcher(bot=bot)
