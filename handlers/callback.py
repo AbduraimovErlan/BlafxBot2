@@ -47,6 +47,62 @@ async def show_results(message: types.Message):
 
 
 
+votes2 = {}
+
+@dp.message_handler(commands=['meet'])
+async def start_vote(message: types.Message):
+    question1 = "Какой день выбираешь для встречи?"
+    options1 = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+
+    question2 = "        Во сколько освободишься?\n      (NY)---(Москва)---(Бишкек)"
+    options2 = ["07:00---14:00---17:00", "08:00---15:00---18:00",
+                "09:00---16:00---19:00", "10:00---17:00---20:00", "11:00---18:00---21:00",
+                "12:00---19:00---22:00", "13:00---20:00---23:00", "14:00---21:00---00:00"]
+
+    poll_message1 = await bot.send_poll(
+        chat_id=message.chat.id,
+        question=question1,
+        options=options1,
+        is_anonymous=False
+    )
+
+    votes2[poll_message1.poll.id] = {'message_id': poll_message1.message_id, 'voters': {}, 'options': options1}
+
+    poll_message2 = await bot.send_poll(
+        chat_id=message.chat.id,
+        question=question2,
+        options=options2,
+        is_anonymous=False
+    )
+
+    votes2[poll_message2.poll.id] = {'message_id': poll_message2.message_id, 'voters': {}, 'options': options2}
+
+@dp.poll_answer_handler()
+async def handle_poll_answer(poll_answer: types.PollAnswer):
+    poll_id = poll_answer.poll_id
+    user_id = poll_answer.user.id
+    option_id = poll_answer.option_ids[0] if poll_answer.option_ids else None
+
+    if poll_id in votes2:
+        votes2[poll_id]['voters'][user_id] = option_id
+
+@dp.message_handler(commands=['results'])
+async def show_results(message: types.Message):
+    for poll in votes2.values():
+        result_text = "Results:\n"
+        results_count = [0] * len(poll['options'])
+
+        for user_id, option_id in poll['voters'].items():
+            results_count[option_id] += 1
+            result_text += f"User {user_id} voted for {poll['options'][option_id]}\n"
+
+        result_text += "\nSummary:\n"
+        for i, count in enumerate(results_count):
+            result_text += f"{poll['options'][i]}: {count} votes\n"
+
+        await message.reply(result_text)
+
+
 
 
 

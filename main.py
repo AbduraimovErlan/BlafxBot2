@@ -3,9 +3,9 @@ from config import dp
 from handlers import client, callback
 import logging
 
-
 client.register_handlers_client(dp)
 callback.register_handlers_callback(dp)
+
 
 
 from handlers.extra import *
