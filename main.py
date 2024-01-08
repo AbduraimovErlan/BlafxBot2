@@ -10,8 +10,9 @@ import logging
 
 client.register_handlers_client(dp)
 callback.register_handlers_callback(dp)
-openai.register_handlers_openai(dp)
+# openai.register_handlers_openai(dp)
 
+openai.register_handlers_transformers(dp)  # Обновленное имя функции
 
 
 from handlers.extra import *
